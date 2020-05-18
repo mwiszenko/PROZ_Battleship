@@ -1,4 +1,6 @@
 package com.mwiszenko.battleship;
 
-public class Spot {
+public class Spot
+{
+
 }

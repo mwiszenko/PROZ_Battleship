@@ -1,4 +1,6 @@
 package com.mwiszenko.battleship;
 
-public class Board {
+public class Board
+{
+
 }

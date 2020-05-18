@@ -1,4 +1,5 @@
 package com.mwiszenko.battleship;
 
-public class Ship {
+public class Ship{
+
 }
