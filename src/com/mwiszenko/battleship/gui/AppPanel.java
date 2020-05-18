@@ -1,13 +1,26 @@
 package com.mwiszenko.battleship.gui;
 
+import com.mwiszenko.battleship.Tile;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AppPanel extends JPanel
 {
-    public AppPanel()
+    private Image bgImage;
+
+    public AppPanel(Image bgImage)
     {
-        setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
-        setLayout(new GridLayout(0,1));
+        this.bgImage = bgImage;
+        setPreferredSize(new Dimension(bgImage.getWidth(this), bgImage.getHeight(this)));
+        setOpaque(true);
+
+        setLayout(new BorderLayout());
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics)
+    {
+        graphics.drawImage(bgImage, 0, 0, null);
     }
 }

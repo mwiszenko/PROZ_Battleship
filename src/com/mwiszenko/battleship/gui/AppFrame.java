@@ -1,6 +1,11 @@
 package com.mwiszenko.battleship.gui;
 
+import com.mwiszenko.battleship.Game;
+import com.mwiszenko.battleship.ImageLoader;
+import com.mwiszenko.battleship.Tile;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class AppFrame extends JFrame
@@ -8,10 +13,14 @@ public class AppFrame extends JFrame
     public AppFrame()
     {
         setTitle("Main menu");
-        setSize(400,400);
+        AppPanel panel = new AppPanel(ImageLoader.getImage("bg.jpg"));
+        add(panel);
+        pack();
         initKeyListeners();
         setJMenuBar(initMenuBar());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -27,14 +36,8 @@ public class AppFrame extends JFrame
         JMenu menu = new JMenu("Game");
 
         JMenuItem newGame = new JMenuItem("Start new game (S)");
-        newGame.addActionListener(e -> dispose());
+        newGame.addActionListener(e -> startNewGame());
         menu.add(newGame);
-
-        menu.addSeparator();
-
-        JMenuItem textLogs = new JMenuItem("Show text logs (L)");
-        newGame.addActionListener(e -> dispose());
-        menu.add(textLogs);
 
         menu.addSeparator();
 
@@ -45,8 +48,7 @@ public class AppFrame extends JFrame
         return menu;
     }
 
-    private void initKeyListeners()
-    {
+    private void initKeyListeners() {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -56,9 +58,17 @@ public class AppFrame extends JFrame
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                switch(keyCode)
-                {
+                switch (keyCode) {
                     case KeyEvent.VK_X:
+                        dispose();
+                        break;
+                    case KeyEvent.VK_S:
+                        dispose();
+                        break;
+                    case KeyEvent.VK_L:
+                        dispose();
+                        break;
+                    case KeyEvent.VK_A:
                         dispose();
                         break;
                 }
@@ -70,4 +80,9 @@ public class AppFrame extends JFrame
             }
         });
     }
+        private void startNewGame()
+        {
+            Game game = new Game(this);
+            game.startGame();
+        }
 }
