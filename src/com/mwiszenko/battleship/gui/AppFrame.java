@@ -1,11 +1,10 @@
 package com.mwiszenko.battleship.gui;
 
+import com.mwiszenko.battleship.Board;
 import com.mwiszenko.battleship.Game;
 import com.mwiszenko.battleship.ImageLoader;
-import com.mwiszenko.battleship.Tile;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class AppFrame extends JFrame
@@ -21,6 +20,7 @@ public class AppFrame extends JFrame
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setLocationRelativeTo(null);
+        setResizable(false);
         setVisible(true);
     }
 
@@ -42,7 +42,7 @@ public class AppFrame extends JFrame
         menu.addSeparator();
 
         JMenuItem exit = new JMenuItem("Exit (X)");
-        newGame.addActionListener(e -> dispose());
+        exit.addActionListener(e -> dispose());
         menu.add(exit);
 
         return menu;
@@ -59,18 +59,8 @@ public class AppFrame extends JFrame
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
-                    case KeyEvent.VK_X:
-                        dispose();
-                        break;
-                    case KeyEvent.VK_S:
-                        dispose();
-                        break;
-                    case KeyEvent.VK_L:
-                        dispose();
-                        break;
-                    case KeyEvent.VK_A:
-                        dispose();
-                        break;
+                    case KeyEvent.VK_X -> dispose();
+                    case KeyEvent.VK_S -> startNewGame();
                 }
             }
 
@@ -83,6 +73,8 @@ public class AppFrame extends JFrame
         private void startNewGame()
         {
             Game game = new Game(this);
-            game.startGame();
+            Board board1 = new Board( 10, 10, true);
+            Board board2 = new Board( 10, 10, false);
+            game.startGame(board1, board2);
         }
 }

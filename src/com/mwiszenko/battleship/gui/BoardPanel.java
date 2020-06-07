@@ -1,19 +1,21 @@
 package com.mwiszenko.battleship.gui;
 
-import com.mwiszenko.battleship.Tile;
+import com.mwiszenko.battleship.Board;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class BoardPanel extends JPanel
 {
-    private Image bgImage;
-    private Tile[][] tiles;
-    public BoardPanel(Image bgImage, int xOffset, int yOffset)
+    private final Image bgImage;
+    private Board board;
+    private boolean isActive;
+
+    public BoardPanel(Image bgImage, Board board, boolean isActive)
     {
         this.bgImage = bgImage;
-        tiles = new Tile[9][9];
-        initTiles(tiles, xOffset, yOffset);
+        this.board = board;
+        this.isActive = isActive;
 
         setPreferredSize(new Dimension(400,400));
         setOpaque(false);
@@ -25,27 +27,28 @@ public class BoardPanel extends JPanel
     {
         graphics.drawImage(bgImage, 0, 0, null);
 
-        for( Tile[] row : tiles)
-        {
-            for (Tile tile : row)
-            {
-                graphics.setColor(Color.BLACK);
-                graphics.drawRect(tile.getXPos(), tile.getYPos(), Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
-            }
-        }
+        board.drawImages(graphics);
     }
 
-    private void initTiles(Tile[][] tiles, int xOffset, int yOffset) {
-        for( int column =0; column<9; column++)
-        {
-            for(int row =0; row<9; row++)
-            {
-                int x = 8 - column;
-                int y = 8 - row;
-                tiles[column][row] = new Tile();
-                tiles[column][row].setXPos(xOffset + Tile.TILE_WIDTH * x);
-                tiles[column][row].setYPos(yOffset + Tile.TILE_HEIGHT * y);
-            }
-        }
+    public boolean checkIfAllSunk()
+    {
+        return board.checkIfAllSunk();
+    }
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void setActivity() {
+        isActive = !isActive;
+    }
+
+    public void makeMove(int row, int column) {
+        board.makeMove(row,column);
+    }
+
+    public boolean isValidMove(int row, int column) {
+        return board.isValidMove(row,column);
     }
 }

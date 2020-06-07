@@ -6,12 +6,16 @@ import java.net.URL;
 
 public class ImageLoader
 {
-    public static Image getImage(String imgName)
+    public static Image getImage(String imgName) throws RuntimeException
     {
         Image img = null;
         try
         {
             URL imgURL = ImageLoader.class.getResource(imgName);
+            if ( imgURL == null )
+            {
+                throw new RuntimeException( imgName );
+            }
             img = new ImageIcon(imgURL).getImage();
         }
         catch (Exception e)

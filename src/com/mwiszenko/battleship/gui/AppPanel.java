@@ -1,13 +1,11 @@
 package com.mwiszenko.battleship.gui;
 
-import com.mwiszenko.battleship.Tile;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class AppPanel extends JPanel
 {
-    private Image bgImage;
+    private final Image bgImage;
 
     public AppPanel(Image bgImage)
     {
