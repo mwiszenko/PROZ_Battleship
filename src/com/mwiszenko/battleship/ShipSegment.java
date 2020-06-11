@@ -20,11 +20,6 @@ public class ShipSegment
         return hitStatus;
     }
 
-    public void setHitStatus(boolean hitStatus)
-    {
-        this.hitStatus = hitStatus;
-    }
-
     public void makeHit() {
         hitStatus = true;
     }

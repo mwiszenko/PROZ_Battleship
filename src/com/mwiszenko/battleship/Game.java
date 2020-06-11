@@ -19,9 +19,9 @@ public class Game extends JFrame
     public void startGame(Board board1, Board board2)
     {
         panels = new BoardPanel[2];
-        panels[0] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board1, true);
+        panels[0] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board1, true, true);
         add(panels[0], BorderLayout.WEST);
-        panels[1] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board2, false);
+        panels[1] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board2, false, false);
         add(panels[1], BorderLayout.EAST);
         pack();
         initKeyListeners();
@@ -79,11 +79,17 @@ public class Game extends JFrame
             public void mousePressed(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
+                int z = e.getButton();
                 int panel = x/400;
                 int column = (x-10-panel*400)/Tile.TILE_WIDTH;
                 int row = (y-36)/Tile.TILE_HEIGHT;
-                if(panels[panel].isActive() && panels[panel].isValidMove(row, column)) {
-                    makeMove(panel, row, column);
+                if(row >= 1 && row <= 8 && column >=1 && column <=8) {
+                    if (z == 1 && panels[panel].isActive() && panels[panel].isValidMove(row, column)) {
+                        makeMove(panel, row, column);
+                    }
+                    if (z == 3 && !panels[panel].isPlayers()) {
+                        flagField(panel, row, column);
+                    }
                 }
             }
         });
@@ -95,5 +101,10 @@ public class Game extends JFrame
         panels[1].setActivity();
         repaint();
         checkEnd();
+    }
+
+    private void flagField(int panel, int row, int column) {
+        panels[panel].flagField(row, column);
+        repaint();
     }
 }

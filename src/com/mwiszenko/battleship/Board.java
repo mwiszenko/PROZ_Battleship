@@ -62,8 +62,8 @@ public class Board extends JPanel
 
     public void drawImages(Graphics graphics)
     {
-        if(displayShipsFlag) {
-            for (Ship ship : ships) {
+        for (Ship ship : ships) {
+            if(displayShipsFlag) {
                 graphics.drawImage(ship.getImage(), ship.getXPos(), ship.getYPos(), null);
             }
         }
@@ -71,12 +71,13 @@ public class Board extends JPanel
         {
             for( Tile tile : row)
             {
-                graphics.drawRect(tile.getXPos(), tile.getYPos(), Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
+                graphics.setColor(Color.BLACK);
+                graphics.drawRoundRect(tile.getXPos(), tile.getYPos(), Tile.TILE_WIDTH, Tile.TILE_HEIGHT, 10, 10);
                 graphics.drawImage(tile.getImage(), tile.getXPos() + 10, tile.getYPos() + 10, null);
             }
         }
         if(displayLastMoveFlag) {
-            graphics.setColor(Color.RED);
+            graphics.setColor(Color.GREEN);
             graphics.drawRoundRect(lastMoveXPos * 40 + 10, lastMoveYPos * 40 + 10, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, 10, 10);
         }
     }
@@ -90,5 +91,9 @@ public class Board extends JPanel
 
     public boolean isValidMove(int row, int column) {
         return !tiles[column][row].isHit();
+    }
+
+    public void flagField(int row, int column) {
+        tiles[column][row].flagField();
     }
 }

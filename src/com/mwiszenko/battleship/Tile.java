@@ -12,6 +12,7 @@ public class Tile
     private int row, column;
     private int xPos,yPos;
     private boolean isHit;
+    private int flag;
 
     private ShipSegment segment;
 
@@ -23,6 +24,7 @@ public class Tile
         this.yPos = yPos;
         isHit = false;
         image = null;
+        flag = 0;
     }
 
     public int getXPos()
@@ -56,10 +58,27 @@ public class Tile
     }
     protected void makeMove() {
         this.isHit = true;
-        this.image = ImageLoader.getImage("fire.png");
-        if(segment != null) this.segment.makeHit();
+        if(segment != null) {
+            this.segment.makeHit();
+            this.image = ImageLoader.getImage("fire.png");
+        }
+        else this.image = ImageLoader.getImage("miss.png");
     }
     public void addSegment(ShipSegment segment) {
         this.segment = segment;
+    }
+
+    public boolean isOccupied() {
+        return segment != null && isHit == true;
+    }
+
+    public void flagField() {
+        if(!isHit()) {
+            flag = (flag + 1) % 4;
+            if(flag == 0) this.image = null;
+            if(flag == 1) this.image = ImageLoader.getImage("flag1.png");
+            if(flag == 2) this.image = ImageLoader.getImage("flag2.png");
+            if(flag == 3) this.image = ImageLoader.getImage("flag3.png");
+        }
     }
 }
