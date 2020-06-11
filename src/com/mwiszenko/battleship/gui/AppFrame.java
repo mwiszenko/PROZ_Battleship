@@ -73,8 +73,8 @@ public class AppFrame extends JFrame
         private void startNewGame()
         {
             Game game = new Game(this);
-            Board board1 = new Board( 10, 10, true);
-            Board board2 = new Board( 10, 10, false);
+            Board board1 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
+            Board board2 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
             game.startGame(board1, board2);
         }
 }

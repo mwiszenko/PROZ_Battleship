@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 public class Tile
 {
-    public static final int TILE_WIDTH = 40;
-    public static final int TILE_HEIGHT = 40;
+    public static final int TILE_WIDTH = 30;
+    public static final int TILE_HEIGHT = 30;
 
     private Image image;
     private int row, column;

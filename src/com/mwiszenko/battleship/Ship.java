@@ -15,7 +15,7 @@ public class Ship
         segments = new ShipSegment[length];
         for ( int i = 0; i < length; i++)
         {
-            segments[i] = new ShipSegment(xPos + i*40, yPos);
+            segments[i] = new ShipSegment(xPos + i*30, yPos);
         }
         isSunk = true;
         this.xPos = xPos;

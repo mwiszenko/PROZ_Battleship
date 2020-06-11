@@ -5,27 +5,31 @@ import com.mwiszenko.battleship.gui.BoardPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.AbstractMap;
 
 public class Game extends JFrame
 {
     private final JFrame parentFrame;
     private BoardPanel[] panels;
+    private AI opponent;
 
     public Game( JFrame parentFrame )
     {
         this.parentFrame = parentFrame;
+        opponent = new AI();
     }
 
     public void startGame(Board board1, Board board2)
     {
         panels = new BoardPanel[2];
-        panels[0] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board1, true, true);
+        panels[0] = new BoardPanel(ImageLoader.getImage("bg-left.jpg"), board1, false);
         add(panels[0], BorderLayout.WEST);
-        panels[1] = new BoardPanel(ImageLoader.getImage("bg.jpg"), board2, false, false);
+        panels[1] = new BoardPanel(ImageLoader.getImage("bg-right.jpg"), board2, false);
         add(panels[1], BorderLayout.EAST);
         pack();
         initKeyListeners();
         initMouseListener();
+        setJMenuBar(initMenuBar());
 
         setLocationRelativeTo(parentFrame);
         setResizable(false);
@@ -80,31 +84,61 @@ public class Game extends JFrame
                 int x = e.getX();
                 int y = e.getY();
                 int z = e.getButton();
-                int panel = x/400;
-                int column = (x-10-panel*400)/Tile.TILE_WIDTH;
-                int row = (y-36)/Tile.TILE_HEIGHT;
-                if(row >= 1 && row <= 8 && column >=1 && column <=8) {
-                    if (z == 1 && panels[panel].isActive() && panels[panel].isValidMove(row, column)) {
-                        makeMove(panel, row, column);
+                int panelNumber = x/400;
+                int column = (x-50-panelNumber*400)/Tile.TILE_WIDTH;
+                int row = (y-96)/Tile.TILE_HEIGHT;
+                if(panelNumber == 1 && row >= 0 && row <= 9 && column >= 0 && column <= 9) {
+                    if (z == 1 && panels[1].isValidMove(row, column)) {
+                        makeMove(row, column);
                     }
-                    if (z == 3 && !panels[panel].isPlayers()) {
-                        flagField(panel, row, column);
+                    if (z == 3) {
+                        flagField(row, column);
                     }
                 }
             }
         });
     }
 
-    private void makeMove(int panel, int row, int column) {
-        panels[panel].makeMove(row, column);
-        panels[0].setActivity();
-        panels[1].setActivity();
+    private void makeMove(int row, int column) {
+        panels[1].makeMove(row, column);
+        repaint();
+        checkEnd();
+        makeAIMove(row, column);
+    }
+
+    private void makeAIMove(int row, int column) {
+        AbstractMap.SimpleEntry<Integer, Integer> move = opponent.getNextMove();
+        panels[0].makeMove(move.getKey(), move.getValue());
         repaint();
         checkEnd();
     }
 
-    private void flagField(int panel, int row, int column) {
-        panels[panel].flagField(row, column);
+    private void flagField(int row, int column) {
+        panels[1].flagField(row, column);
         repaint();
+    }
+
+    private JMenuBar initMenuBar()
+    {
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(initMenu());
+        return menuBar;
+    }
+
+    private JMenu initMenu()
+    {
+        JMenu menu = new JMenu("Game");
+
+        JMenuItem newGame = new JMenuItem("Start new game (S)");
+        newGame.addActionListener(e -> dispose());
+        menu.add(newGame);
+
+        menu.addSeparator();
+
+        JMenuItem exit = new JMenuItem("Exit (X)");
+        exit.addActionListener(e -> dispose());
+        menu.add(exit);
+
+        return menu;
     }
 }
