@@ -39,8 +39,8 @@ public class Game extends JFrame
     }
 
     private void closeGame() {
-        setVisible(false);
         parentFrame.setVisible(true);
+        dispose();
     }
 
     private void initKeyListeners() {
@@ -67,12 +67,22 @@ public class Game extends JFrame
     }
 
 
-    private void checkEnd()
+    private boolean checkEnd()
     {
         boolean end1, end2;
         end1 = panels[0].checkIfAllSunk();
         end2 = panels[1].checkIfAllSunk();
-        if (end1 || end2) closeGame();
+        if (end1) {
+            JOptionPane.showConfirmDialog( this, "You lost", "Loss",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE );
+            closeGame();
+        }
+        else if (end2) {
+            JOptionPane.showConfirmDialog( this, "You won", "Win",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE );
+            closeGame();
+        }
+        return end1 || end2;
     }
 
 
@@ -102,8 +112,7 @@ public class Game extends JFrame
     private void makeMove(int row, int column) {
         panels[1].makeMove(row, column);
         repaint();
-        checkEnd();
-        makeAIMove(row, column);
+        if(!checkEnd()) makeAIMove(row, column);
     }
 
     private void makeAIMove(int row, int column) {
