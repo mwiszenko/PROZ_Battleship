@@ -1,4 +1,4 @@
-package com.mwiszenko.battleship;
+package com.mwiszenko.battleship.core;
 
 import com.mwiszenko.battleship.gui.AppFrame;
 

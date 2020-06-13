@@ -1,4 +1,4 @@
-package com.mwiszenko.battleship;
+package com.mwiszenko.battleship.utils;
 
 import java.awt.*;
 import javax.swing.*;
@@ -11,7 +11,7 @@ public class ImageLoader
         Image img = null;
         try
         {
-            URL imgURL = ImageLoader.class.getResource(imgName);
+            URL imgURL = ImageLoader.class.getClassLoader().getResource(imgName);
             if ( imgURL == null )
             {
                 throw new RuntimeException( imgName );

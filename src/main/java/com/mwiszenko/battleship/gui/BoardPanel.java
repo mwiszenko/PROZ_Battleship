@@ -1,6 +1,6 @@
 package com.mwiszenko.battleship.gui;
 
-import com.mwiszenko.battleship.Board;
+import com.mwiszenko.battleship.core.Board;
 
 import javax.swing.*;
 import java.awt.*;

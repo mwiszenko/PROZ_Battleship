@@ -1,4 +1,6 @@
-package com.mwiszenko.battleship;
+package com.mwiszenko.battleship.core;
+
+import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

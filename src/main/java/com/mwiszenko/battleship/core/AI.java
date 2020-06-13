@@ -1,11 +1,11 @@
-package com.mwiszenko.battleship;
+package com.mwiszenko.battleship.core;
 
 import java.util.*;
 
 
 public class AI
 {
-    private ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> possibleMoves;
+    private final ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> possibleMoves;
 
     public AI()
     {

@@ -1,6 +1,4 @@
-package com.mwiszenko.battleship;
-
-import java.awt.*;
+package com.mwiszenko.battleship.core;
 
 public class ShipSegment
 {

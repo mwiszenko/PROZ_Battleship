@@ -1,7 +1,8 @@
-package com.mwiszenko.battleship;
+package com.mwiszenko.battleship.core;
+
+import com.mwiszenko.battleship.utils.ImageLoader;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class Tile
 {
@@ -69,7 +70,7 @@ public class Tile
     }
 
     public boolean isOccupied() {
-        return segment != null && isHit == true;
+        return segment != null && isHit;
     }
 
     public void flagField() {
