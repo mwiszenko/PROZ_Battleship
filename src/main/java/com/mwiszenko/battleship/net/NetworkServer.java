@@ -2,7 +2,6 @@ package com.mwiszenko.battleship.net;
 
 import com.mwiszenko.battleship.core.Game;
 
-import javax.swing.*;
 import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

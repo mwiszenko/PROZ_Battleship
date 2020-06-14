@@ -5,7 +5,6 @@ import com.mwiszenko.battleship.core.Game;
 import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
