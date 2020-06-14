@@ -5,6 +5,7 @@ import com.mwiszenko.battleship.core.Game;
 import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -30,7 +31,7 @@ public class AppFrame extends JFrame {
     }
 
     private JMenu initMenu() {
-        JMenu menu = new JMenu("Game");
+        JMenu menu = new JMenu("Menu");
 
         JMenuItem startLocalGame = new JMenuItem("Start local game against AI (L)");
         startLocalGame.addActionListener(e -> startLocalGame());

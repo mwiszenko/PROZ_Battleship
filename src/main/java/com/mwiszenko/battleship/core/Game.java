@@ -24,7 +24,6 @@ public class Game extends JFrame {
     private NetworkClient client;
     private boolean isHost;
 
-
     public Game(JFrame parentFrame, String gameType) {
         this.parentFrame = parentFrame;
         this.gameType = gameType;
@@ -161,8 +160,8 @@ public class Game extends JFrame {
                 int y = e.getY();
                 int z = e.getButton();
                 int panelNumber = x / 400;
-                int column = (x - 50 - panelNumber * 400) / Tile.TILE_WIDTH;
-                int row = (y - 96) / Tile.TILE_HEIGHT;
+                int column = (x - Board.BOARD_OFFSET - panelNumber * 400) / Tile.TILE_WIDTH;
+                int row = (y - Board.BOARD_OFFSET - 50) / Tile.TILE_HEIGHT;
                 if (panelNumber == 1 && row >= 0 && row <= 9 && column >= 0 && column <= 9) {
                     if (z == 1 && panels[1].isActive() && panels[1].isValidMove(row, column)) {
                         makeMove(row, column);
@@ -226,7 +225,7 @@ public class Game extends JFrame {
     }
 
     private JMenu initMenu() {
-        JMenu menu = new JMenu("Game");
+        JMenu menu = new JMenu("Menu");
 
         JMenuItem exit = new JMenuItem("Exit (X)");
         exit.addActionListener(e -> closeGame());
@@ -255,7 +254,7 @@ public class Game extends JFrame {
         }
     }
 
-    public String getInputFromTextField(String message) {
+    private String getInputFromTextField(String message) {
         return JOptionPane.showInputDialog(this, message);
     }
 
@@ -283,7 +282,7 @@ public class Game extends JFrame {
         showConfirmDialog("Successfully connected to opponent", "Connection established");
     }
 
-    public void localSetup() {
+    private void localSetup() {
         int column, row, length, number;
         char vertical;
         Ship[] setup = setupProvider.getSetup();

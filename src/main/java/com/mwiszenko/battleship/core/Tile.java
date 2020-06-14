@@ -59,4 +59,12 @@ public class Tile {
             if (flag == 3) this.image = ImageLoader.getImage("flag3.png");
         }
     }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public ShipSegment getSegment() {
+        return segment;
+    }
 }
