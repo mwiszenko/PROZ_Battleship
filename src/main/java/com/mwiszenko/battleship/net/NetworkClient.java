@@ -8,8 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class NetworkClient
-{
+public class NetworkClient {
 
     volatile Socket socket;
     volatile DataInputStream input;
@@ -17,8 +16,7 @@ public class NetworkClient
     boolean connected;
     Game game;
 
-    public NetworkClient(Game game)
-    {
+    public NetworkClient(Game game) {
         socket = null;
         input = null;
         output = null;
@@ -26,43 +24,37 @@ public class NetworkClient
         this.game = game;
     }
 
-    public void connect( String serverName, int port )
-    {
-        try
-        {
+    public void connect(String serverName, int port) {
+        try {
             socket = new Socket(serverName, port);
-            input = new DataInputStream( socket.getInputStream() );
-            output = new DataOutputStream( socket.getOutputStream() );
+            input = new DataInputStream(socket.getInputStream());
+            output = new DataOutputStream(socket.getOutputStream());
             connected = true;
 
             listen();
-        }
-        catch ( IOException e )
-        {
+
+            game.onlineSetup();
+        } catch (IOException e) {
             game.showConfirmDialog("Unable to establish connection", "Connection error");
             game.closeGame();
         }
     }
 
-    public void listen()
-    {
+    public void listen() {
         Runnable listenTask = () ->
         {
-            while ( isConnected() )
-            {
-                try
-                {
+            while (isConnected()) {
+                try {
                     String data = input.readUTF();
                     game.receiveMessage(data);
-                }
-                catch ( IOException e )
-                {
-                    System.out.println("Connection closed");
+                } catch (IOException e) {
+                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
+                    game.closeGame();
                 }
             }
         };
 
-        Thread listenThread = new Thread( listenTask );
+        Thread listenThread = new Thread(listenTask);
         listenThread.start();
     }
 
@@ -75,28 +67,23 @@ public class NetworkClient
     }
 
     public void stop() {
-        if(connected) send("0");
+        if (connected) send("0");
         connected = false;
         close(input);
         close(output);
         close(socket);
     }
 
-    public void close( Closeable closeable )
-    {
-        try
-        {
-            if ( closeable != null )
+    public void close(Closeable closeable) {
+        try {
+            if (closeable != null)
                 closeable.close();
-        }
-        catch ( IOException e )
-        {
-            System.out.println( "Cannot close network module: " + closeable.toString() + "." );
+        } catch (IOException e) {
+            System.out.println("Cannot close network module: " + closeable.toString() + ".");
         }
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return connected;
     }
 }

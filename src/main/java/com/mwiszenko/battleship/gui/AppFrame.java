@@ -5,13 +5,12 @@ import com.mwiszenko.battleship.core.Game;
 import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class AppFrame extends JFrame
-{
-    public AppFrame()
-    {
-        setTitle("Main menu");
+public class AppFrame extends JFrame {
+    public AppFrame() {
+        setTitle("Battleship");
         AppPanel panel = new AppPanel(ImageLoader.getImage("bg.jpg"));
         add(panel);
         pack();
@@ -24,18 +23,16 @@ public class AppFrame extends JFrame
         setVisible(true);
     }
 
-    private JMenuBar initMenuBar()
-    {
+    private JMenuBar initMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(initMenu());
         return menuBar;
     }
 
-    private JMenu initMenu()
-    {
+    private JMenu initMenu() {
         JMenu menu = new JMenu("Game");
 
-        JMenuItem startLocalGame = new JMenuItem("Start local game (L)");
+        JMenuItem startLocalGame = new JMenuItem("Start local game against AI (L)");
         startLocalGame.addActionListener(e -> startLocalGame());
         menu.add(startLocalGame);
 
@@ -85,28 +82,25 @@ public class AppFrame extends JFrame
         });
     }
 
-    private void startLocalGame()
-    {
+    private void startLocalGame() {
         Game game = new Game(this, "local");
-        Board board1 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board board2 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(board1, board2);
+        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
+        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
+        game.startGame(playerBoard, opponentBoard);
     }
 
-    private void hostOnlineGame()
-    {
+    private void hostOnlineGame() {
         Game game = new Game(this, "host");
-        Board board1 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board board2 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(board1, board2);
+        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
+        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
+        game.startGame(playerBoard, opponentBoard);
     }
 
-    private void joinOnlineGame()
-    {
+    private void joinOnlineGame() {
         Game game = new Game(this, "join");
-        Board board1 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board board2 = new Board( Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(board1, board2);
+        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
+        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
+        game.startGame(playerBoard, opponentBoard);
     }
 
 }

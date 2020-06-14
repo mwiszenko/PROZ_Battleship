@@ -5,38 +5,33 @@ import com.mwiszenko.battleship.core.Board;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardPanel extends JPanel
-{
+public class BoardPanel extends JPanel {
     private final Image bgImage;
-    private Board board;
+    private final Board board;
     private boolean isActive;
 
-    public BoardPanel(Image bgImage, Board board, boolean isActive)
-    {
+    public BoardPanel(Image bgImage, Board board, boolean isActive) {
         this.bgImage = bgImage;
         this.board = board;
         this.isActive = isActive;
 
-        setPreferredSize(new Dimension(bgImage.getWidth(null),bgImage.getHeight(null)));
+        setPreferredSize(new Dimension(bgImage.getWidth(null), bgImage.getHeight(null)));
         setOpaque(false);
-        setLayout(new GridLayout(8,8));
+        setLayout(new GridLayout(8, 8));
     }
 
     @Override
-    protected void paintComponent(Graphics graphics)
-    {
+    protected void paintComponent(Graphics graphics) {
         graphics.drawImage(bgImage, 0, 0, null);
 
         board.drawImages(graphics);
     }
 
-    public boolean checkIfAllSunk()
-    {
+    public boolean checkIfAllSunk() {
         return board.checkIfAllSunk();
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return isActive;
     }
 
@@ -45,14 +40,18 @@ public class BoardPanel extends JPanel
     }
 
     public void makeMove(int row, int column) {
-        board.makeMove(row,column);
+        board.makeMove(row, column);
     }
 
     public boolean isValidMove(int row, int column) {
-        return board.isValidMove(row,column);
+        return board.isValidMove(row, column);
     }
 
     public void flagField(int row, int column) {
         board.flagField(row, column);
+    }
+
+    public void addShip(int number, int length, int column, int row, char vertical) {
+        board.addShip(number, length, column, row, vertical);
     }
 }

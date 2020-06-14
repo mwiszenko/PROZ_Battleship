@@ -3,12 +3,10 @@ package com.mwiszenko.battleship.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class AppPanel extends JPanel
-{
+public class AppPanel extends JPanel {
     private final Image bgImage;
 
-    public AppPanel(Image bgImage)
-    {
+    public AppPanel(Image bgImage) {
         this.bgImage = bgImage;
         setPreferredSize(new Dimension(bgImage.getWidth(this), bgImage.getHeight(this)));
         setOpaque(true);
@@ -17,8 +15,7 @@ public class AppPanel extends JPanel
     }
 
     @Override
-    protected void paintComponent(Graphics graphics)
-    {
+    protected void paintComponent(Graphics graphics) {
         graphics.drawImage(bgImage, 0, 0, null);
     }
 }

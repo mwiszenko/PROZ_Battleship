@@ -1,20 +1,17 @@
 package com.mwiszenko.battleship.core;
 
-public class ShipSegment
-{
+public class ShipSegment {
     private boolean hitStatus;
-    private int xPos;
-    private int yPos;
+    private final int xPos;
+    private final int yPos;
 
-    public ShipSegment(int xPos, int yPos)
-    {
+    public ShipSegment(int xPos, int yPos) {
         this.hitStatus = false;
         this.xPos = xPos;
         this.yPos = yPos;
     }
 
-    public boolean getHitStatus()
-    {
+    public boolean getHitStatus() {
         return hitStatus;
     }
 
@@ -22,7 +19,11 @@ public class ShipSegment
         hitStatus = true;
     }
 
-    public int getXPos() {return xPos;}
+    public int getXPos() {
+        return xPos;
+    }
 
-    public int getYPos() {return yPos;}
+    public int getYPos() {
+        return yPos;
+    }
 }

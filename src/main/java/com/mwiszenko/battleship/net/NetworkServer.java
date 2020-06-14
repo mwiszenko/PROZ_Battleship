@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class NetworkServer
-{
+public class NetworkServer {
 
     volatile Socket socket;
     volatile ServerSocket server;
@@ -19,8 +18,7 @@ public class NetworkServer
     boolean connected;
     Game game;
 
-    public NetworkServer(Game game)
-    {
+    public NetworkServer(Game game) {
         socket = null;
         server = null;
         input = null;
@@ -30,69 +28,58 @@ public class NetworkServer
     }
 
 
-    public void start( int port, int timeout )
-    {
-        initServer( port, timeout );
-        if ( server != null )
+    public void start(int port, int timeout) {
+        initServer(port, timeout);
+        if (server != null)
             connect();
     }
 
-    private void initServer( int port, int timeout )
-    {
-        try
-        {
-            server = new ServerSocket( port );
-            server.setSoTimeout( timeout );
-        }
-        catch ( IOException e )
-        {
-            System.out.println( "Unable to create a server socket for port " + port + "." );
+    private void initServer(int port, int timeout) {
+        try {
+            server = new ServerSocket(port);
+            server.setSoTimeout(timeout);
+        } catch (IOException e) {
+            System.out.println("Unable to create a server socket for port " + port + ".");
         }
     }
 
-    public void connect()
-    {
+    public void connect() {
         Runnable serverTask = () ->
         {
-            try
-            {
+            try {
                 socket = server.accept();
                 connected = true;
-                input = new DataInputStream( socket.getInputStream() );
-                output = new DataOutputStream( socket.getOutputStream() );
+                input = new DataInputStream(socket.getInputStream());
+                output = new DataOutputStream(socket.getOutputStream());
 
                 listen();
-            }
-            catch ( IOException e )
-            {
+
+                game.onlineSetup();
+            } catch (IOException e) {
                 game.showConfirmDialog("Unable to establish connection within set timeout", "Connection timeout");
                 game.closeGame();
             }
         };
 
-        Thread serverThread = new Thread( serverTask );
+        Thread serverThread = new Thread(serverTask);
         serverThread.start();
     }
 
-    public void listen()
-    {
+    public void listen() {
         Runnable listenTask = () ->
         {
-            while ( connected )
-            {
-                try
-                {
+            while (connected) {
+                try {
                     String data = input.readUTF();
                     game.receiveMessage(data);
-                }
-                catch ( IOException e )
-                {
-                    System.out.println("Connection closed");
+                } catch (IOException e) {
+                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
+                    game.closeGame();
                 }
             }
         };
 
-        Thread listenThread = new Thread( listenTask );
+        Thread listenThread = new Thread(listenTask);
         listenThread.start();
     }
 
@@ -105,7 +92,7 @@ public class NetworkServer
     }
 
     public void stop() {
-        if(connected) send("0");
+        if (connected) send("0");
         connected = false;
         close(server);
         close(input);
@@ -113,21 +100,16 @@ public class NetworkServer
         close(socket);
     }
 
-    void close( Closeable closeable )
-    {
-        try
-        {
-            if ( closeable != null )
+    void close(Closeable closeable) {
+        try {
+            if (closeable != null)
                 closeable.close();
-        }
-        catch ( IOException e )
-        {
-            System.out.println( "Cannot close network module: " + closeable.toString() + "." );
+        } catch (IOException e) {
+            System.out.println("Cannot close network module: " + closeable.toString() + ".");
         }
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return connected;
     }
 }

@@ -1,17 +1,17 @@
 package com.mwiszenko.battleship.core;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
-public class AI
-{
+public class AI {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> possibleMoves;
 
-    public AI()
-    {
+    public AI() {
         possibleMoves = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            for(int j = 0; j < 10; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 AbstractMap.SimpleEntry<Integer, Integer> entry = new AbstractMap.SimpleEntry<>(i, j);
                 possibleMoves.add(entry);
             }
@@ -19,8 +19,7 @@ public class AI
         Collections.shuffle(possibleMoves);
     }
 
-    public AbstractMap.SimpleEntry<Integer, Integer> getNextMove()
-    {
+    public AbstractMap.SimpleEntry<Integer, Integer> getNextMove() {
         AbstractMap.SimpleEntry<Integer, Integer> entry = possibleMoves.get(0);
         possibleMoves.remove(0);
         return entry;
