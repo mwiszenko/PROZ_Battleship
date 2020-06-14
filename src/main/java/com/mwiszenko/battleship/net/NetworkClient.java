@@ -2,6 +2,7 @@ package com.mwiszenko.battleship.net;
 
 import com.mwiszenko.battleship.core.Game;
 
+import javax.swing.*;
 import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -35,8 +36,8 @@ public class NetworkClient {
 
             game.onlineSetup();
         } catch (IOException e) {
-            game.showConfirmDialog("Unable to establish connection", "Connection error");
             game.closeGame();
+            game.showConfirmDialog("Unable to establish connection", "Connection error");
         }
     }
 
@@ -48,8 +49,8 @@ public class NetworkClient {
                     String data = input.readUTF();
                     game.receiveMessage(data);
                 } catch (IOException e) {
-                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
                     game.closeGame();
+                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
                 }
             }
         };

@@ -24,7 +24,7 @@ public class BoardPanel extends JPanel {
     protected void paintComponent(Graphics graphics) {
         graphics.drawImage(bgImage, 0, 0, null);
 
-        board.drawImages(graphics);
+        board.drawImages(graphics, isActive);
     }
 
     public boolean checkIfAllSunk() {

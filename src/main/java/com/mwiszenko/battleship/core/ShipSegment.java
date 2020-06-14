@@ -11,7 +11,7 @@ public class ShipSegment {
         this.yPos = yPos;
     }
 
-    public boolean getHitStatus() {
+    public boolean isHit() {
         return hitStatus;
     }
 

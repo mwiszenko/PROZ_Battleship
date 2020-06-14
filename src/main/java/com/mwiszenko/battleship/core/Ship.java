@@ -8,22 +8,22 @@ public class Ship {
     private final ShipSegment[] segments;
     private final int xPos;
     private final int yPos;
-    private final char vertical;
+    private final char direction;
     private final int length;
     private final int number;
     private boolean isSunk;
     private Image image;
 
-    public Ship(int number, int length, int xPos, int yPos, char vertical) {
+    public Ship(int number, int length, int xPos, int yPos, char direction) {
         segments = new ShipSegment[length];
         this.number = number;
-        this.vertical = vertical;
+        this.direction = direction;
         this.length = length;
         for (int i = 0; i < length; i++) {
-            if (vertical == 'h') {
+            if (direction == 'h') {
                 segments[i] = new ShipSegment(xPos + i * 30, yPos);
                 this.image = ImageLoader.getImage(length + "h.png");
-            } else if (vertical == 'v') {
+            } else if (direction == 'v') {
                 segments[i] = new ShipSegment(xPos, yPos + i * 30);
                 this.image = ImageLoader.getImage(length + "v.png");
             }
@@ -36,15 +36,15 @@ public class Ship {
     public boolean isSunk() {
         boolean sunk = true;
         for (ShipSegment segment : segments) {
-            if (!segment.getHitStatus()) {
+            if (!segment.isHit()) {
                 sunk = false;
                 break;
             }
         }
         if (sunk) {
             isSunk = true;
-            if (vertical == 'v') image = ImageLoader.getImage(length + "v-sunk.png");
-            else if (vertical == 'h') image = ImageLoader.getImage(length + "h-sunk.png");
+            if (direction == 'v') image = ImageLoader.getImage(length + "v-sunk.png");
+            else if (direction == 'h') image = ImageLoader.getImage(length + "h-sunk.png");
         }
         return isSunk;
     }
@@ -61,8 +61,8 @@ public class Ship {
         return length;
     }
 
-    public char getVertical() {
-        return vertical;
+    public char getDirection() {
+        return direction;
     }
 
     public int getNumber() {

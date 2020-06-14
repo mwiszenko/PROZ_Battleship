@@ -56,7 +56,7 @@ public class Board extends JPanel {
         return allSunk;
     }
 
-    public void drawImages(Graphics graphics) {
+    public void drawImages(Graphics graphics, boolean isActive) {
         graphics.drawImage(ImageLoader.getImage("board.jpg"), Board.BOARD_OFFSET,
                 Board.BOARD_OFFSET, null);
         for (Tile[] row : tiles) {
@@ -81,6 +81,9 @@ public class Board extends JPanel {
                     lastMoveYPos * Tile.TILE_HEIGHT + Board.BOARD_OFFSET,
                     Tile.TILE_WIDTH, Tile.TILE_HEIGHT, 5, 10);
         }
+        if(isActive) graphics.setColor(Color.GREEN);
+        else graphics.setColor(Color.RED);
+        graphics.drawRect(Board.BOARD_OFFSET, Board.BOARD_OFFSET, 10 * Tile.TILE_WIDTH, 10 * Tile.TILE_HEIGHT);
     }
 
     public void makeMove(int row, int column) {
@@ -91,10 +94,11 @@ public class Board extends JPanel {
     }
 
     public boolean isValidMove(int row, int column) {
+        if(row < 0 || row > 10 || column < 0 || column > 10) return false;
         return !tiles[column][row].isHit();
     }
 
     public void flagField(int row, int column) {
-        tiles[column][row].flagField();
+        if(row >= 0 && row <= 10 && column >= 0 && column <= 10) tiles[column][row].flagField();
     }
 }

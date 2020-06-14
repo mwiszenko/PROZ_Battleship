@@ -14,8 +14,6 @@ class TileTest {
         tile.makeMove();
         assertTrue(tile.isHit());
         assertNotNull(tile.getImage());
-        tile.makeMove();
-        assertTrue(tile.isHit());
     }
 
     @Test

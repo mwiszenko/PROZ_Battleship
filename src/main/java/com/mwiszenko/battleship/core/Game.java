@@ -73,7 +73,7 @@ public class Game extends JFrame {
             case "host" -> {
                 try {
                     while(isInvalidInt(port = Integer.parseInt(getInputFromTextField(
-                            "Enter port (range 1024-65535")), 1024, 65535)) {
+                            "Enter port (range 1024-65535)")), 1024, 65535)) {
                         showConfirmDialog("Number not in range", "Wrong input");
                     }
                     while(isInvalidInt(timeout = Integer.parseInt(getInputFromTextField(
@@ -92,7 +92,7 @@ public class Game extends JFrame {
                 String serverName = getInputFromTextField("Enter server name");
                 try {
                     while(isInvalidInt(port = Integer.parseInt(getInputFromTextField(
-                            "Enter port (range 1024-65535")), 1024, 65535)) {
+                            "Enter port (range 1024-65535)")), 1024, 65535)) {
                         showConfirmDialog("Number not in range", "Wrong input");
                     }
                 } catch (NumberFormatException e) {
@@ -247,9 +247,9 @@ public class Game extends JFrame {
                 int length = data.charAt(2) - '0';
                 int column = data.charAt(3) - '0';
                 int row = data.charAt(4) - '0';
-                char vertical = data.charAt(5);
+                char direction = data.charAt(5);
 
-                panels[1].addShip(number, length, column, row, vertical);
+                panels[1].addShip(number, length, column, row, direction);
             }
         }
     }
@@ -265,18 +265,18 @@ public class Game extends JFrame {
 
     public void onlineSetup() {
         int column, row, length, number;
-        char vertical;
+        char direction;
         Ship[] setup = setupProvider.getSetup();
         for (Ship ship : setup) {
             column = ship.getXPos();
             row = ship.getYPos();
             length = ship.getLength();
             number = ship.getNumber();
-            vertical = ship.getVertical();
-            panels[0].addShip(number, length, column, row, vertical);
+            direction = ship.getDirection();
+            panels[0].addShip(number, length, column, row, direction);
 
-            if (server != null) server.send("S" + number + length + column + row + vertical);
-            else if (client != null) client.send("S" + number + length + column + row + vertical);
+            if (server != null) server.send("S" + number + length + column + row + direction);
+            else if (client != null) client.send("S" + number + length + column + row + direction);
         }
         repaint();
         showConfirmDialog("Successfully connected to opponent", "Connection established");
@@ -284,15 +284,15 @@ public class Game extends JFrame {
 
     private void localSetup() {
         int column, row, length, number;
-        char vertical;
+        char direction;
         Ship[] setup = setupProvider.getSetup();
         for (Ship ship : setup) {
             column = ship.getXPos();
             row = ship.getYPos();
             length = ship.getLength();
             number = ship.getNumber();
-            vertical = ship.getVertical();
-            panels[0].addShip(number, length, column, row, vertical);
+            direction = ship.getDirection();
+            panels[0].addShip(number, length, column, row, direction);
         }
         setup = setupProvider.getSetup();
         for (Ship ship : setup) {
@@ -300,13 +300,13 @@ public class Game extends JFrame {
             row = ship.getYPos();
             length = ship.getLength();
             number = ship.getNumber();
-            vertical = ship.getVertical();
-            panels[1].addShip(number, length, column, row, vertical);
+            direction = ship.getDirection();
+            panels[1].addShip(number, length, column, row, direction);
         }
         repaint();
     }
 
-    private boolean isInvalidInt(int data, int min, int max) {
+    public boolean isInvalidInt(int data, int min, int max) {
         return data < min || data > max;
     }
 }
