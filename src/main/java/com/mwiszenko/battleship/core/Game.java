@@ -19,7 +19,7 @@ public class Game extends JFrame {
     private final String gameType;
     private final SetupProvider setupProvider;
     private BoardPanel[] panels;
-    private AI AIopponent;
+    private AI opponent;
     private NetworkServer server;
     private NetworkClient client;
     private boolean isHost;
@@ -37,7 +37,7 @@ public class Game extends JFrame {
                 isHost = false;
             }
             case "local" -> {
-                AIopponent = new AI();
+                opponent = new AI();
                 isHost = true;
             }
         }
@@ -141,10 +141,10 @@ public class Game extends JFrame {
         end1 = panels[0].checkIfAllSunk();
         end2 = panels[1].checkIfAllSunk();
         if (end1) {
-            showConfirmDialog("You lost", "Loss");
+            showConfirmDialog("You lost. Good luck next time!", "Loss");
             closeGame();
         } else if (end2) {
-            showConfirmDialog("You won", "Win");
+            showConfirmDialog("Congratulations! You won!", "Win");
             closeGame();
         }
         return end1 || end2;
@@ -187,7 +187,7 @@ public class Game extends JFrame {
             panels[1].setActivity();
             repaint();
             checkEnd();
-        } else if (AIopponent != null) {
+        } else if (opponent != null) {
             panels[1].makeMove(row, column);
             panels[1].setActivity();
             repaint();
@@ -207,7 +207,7 @@ public class Game extends JFrame {
     }
 
     private void makeAIMove() {
-        AbstractMap.SimpleEntry<Integer, Integer> move = AIopponent.getNextMove();
+        AbstractMap.SimpleEntry<Integer, Integer> move = opponent.getNextMove();
         panels[0].makeMove(move.getKey(), move.getValue());
         repaint();
         checkEnd();
