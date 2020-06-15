@@ -3,6 +3,7 @@ package com.mwiszenko.battleship.core;
 import com.mwiszenko.battleship.gui.BoardPanel;
 import com.mwiszenko.battleship.net.NetworkClient;
 import com.mwiszenko.battleship.net.NetworkServer;
+import com.mwiszenko.battleship.utils.DialogHandler;
 import com.mwiszenko.battleship.utils.ImageLoader;
 import com.mwiszenko.battleship.utils.SetupProvider;
 
@@ -29,11 +30,11 @@ public class Game extends JFrame {
         this.gameType = gameType;
         switch (gameType) {
             case "host" -> {
-                server = new NetworkServer(this);
+                server = new NetworkServer(this, parentFrame);
                 isHost = true;
             }
             case "join" -> {
-                client = new NetworkClient(this);
+                client = new NetworkClient(this, parentFrame);
                 isHost = false;
             }
             case "local" -> {
@@ -74,18 +75,19 @@ public class Game extends JFrame {
                 try {
                     while(isInvalidInt(port = Integer.parseInt(getInputFromTextField(
                             "Enter port (range 1024-65535)")), 1024, 65535)) {
-                        showConfirmDialog("Number not in range", "Wrong input");
+                        DialogHandler.showConfirmDialog(this, "Number not in range", "Wrong input");
                     }
                     while(isInvalidInt(timeout = Integer.parseInt(getInputFromTextField(
                             "Enter timeout in seconds (range 0-60)")), 0, 60)) {
-                        showConfirmDialog("Number not in range", "Wrong input");
+                        DialogHandler.showConfirmDialog(this, "Number not in range", "Wrong input");
                     }
                 } catch (NumberFormatException e) {
-                    showConfirmDialog("Not a number", "Wrong input");
+                    DialogHandler.showConfirmDialog(this, "Not a number", "Wrong input");
                     goodInput = false;
                 }
                 if (goodInput) {
                     server.start(port, timeout * 1000);
+                    panels[1].setActivity();
                 } else closeGame();
             }
             case "join" -> {
@@ -93,10 +95,10 @@ public class Game extends JFrame {
                 try {
                     while(isInvalidInt(port = Integer.parseInt(getInputFromTextField(
                             "Enter port (range 1024-65535)")), 1024, 65535)) {
-                        showConfirmDialog("Number not in range", "Wrong input");
+                        DialogHandler.showConfirmDialog(this, "Number not in range", "Wrong input");
                     }
                 } catch (NumberFormatException e) {
-                    showConfirmDialog("Not a number", "Wrong input");
+                    DialogHandler.showConfirmDialog(this, "Not a number", "Wrong input");
                     goodInput = false;
                 }
                 if (goodInput) {
@@ -141,10 +143,10 @@ public class Game extends JFrame {
         end1 = panels[0].checkIfAllSunk();
         end2 = panels[1].checkIfAllSunk();
         if (end1) {
-            showConfirmDialog("You lost. Good luck next time!", "Loss");
+            DialogHandler.showConfirmDialog(this, "You lost. Good luck next time!", "Loss");
             closeGame();
         } else if (end2) {
-            showConfirmDialog("Congratulations! You won!", "Win");
+            DialogHandler.showConfirmDialog(this, "Congratulations! You won!", "Win");
             closeGame();
         }
         return end1 || end2;
@@ -236,7 +238,10 @@ public class Game extends JFrame {
 
     public void receiveMessage(String data) {
         switch (data.charAt(0)) {
-            case '0' -> closeGame();
+            case '0' -> {
+                closeGame();
+                DialogHandler.showConfirmDialog(parentFrame, "Lost connection to opponent", "Connection error");
+            }
             case 'M' -> {
                 int row = data.charAt(1) - '0';
                 int column = data.charAt(2) - '0';
@@ -254,14 +259,7 @@ public class Game extends JFrame {
         }
     }
 
-    private String getInputFromTextField(String message) {
-        return JOptionPane.showInputDialog(this, message);
-    }
 
-    public void showConfirmDialog(String message, String title) {
-        JOptionPane.showConfirmDialog(this, message, title,
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
-    }
 
     public void onlineSetup() {
         int column, row, length, number;
@@ -279,7 +277,7 @@ public class Game extends JFrame {
             else if (client != null) client.send("S" + number + length + column + row + direction);
         }
         repaint();
-        showConfirmDialog("Successfully connected to opponent", "Connection established");
+        DialogHandler.showConfirmDialog(this, "Successfully connected to opponent", "Connection established");
     }
 
     private void localSetup() {
@@ -308,5 +306,10 @@ public class Game extends JFrame {
 
     public boolean isInvalidInt(int data, int min, int max) {
         return data < min || data > max;
+    }
+
+    public String getInputFromTextField(String message) {
+        return (String) JOptionPane.showInputDialog(this, message, "Input", JOptionPane.INFORMATION_MESSAGE,
+                new ImageIcon(ImageLoader.getImage("icon.png")), null, null);
     }
 }

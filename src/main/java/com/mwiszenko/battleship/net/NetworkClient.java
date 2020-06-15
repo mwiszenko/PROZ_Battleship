@@ -1,7 +1,9 @@
 package com.mwiszenko.battleship.net;
 
 import com.mwiszenko.battleship.core.Game;
+import com.mwiszenko.battleship.utils.DialogHandler;
 
+import javax.swing.*;
 import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,13 +17,15 @@ public class NetworkClient {
     volatile DataOutputStream output;
     boolean connected;
     Game game;
+    JFrame appFrame;
 
-    public NetworkClient(Game game) {
+    public NetworkClient(Game game, JFrame appFrame) {
         socket = null;
         input = null;
         output = null;
         connected = false;
         this.game = game;
+        this.appFrame = appFrame;
     }
 
     public void connect(String serverName, int port) {
@@ -36,7 +40,7 @@ public class NetworkClient {
             game.onlineSetup();
         } catch (IOException e) {
             game.closeGame();
-            game.showConfirmDialog("Unable to establish connection", "Connection error");
+            DialogHandler.showConfirmDialog(appFrame, "Unable to establish connection", "Connection error");
         }
     }
 
@@ -49,7 +53,6 @@ public class NetworkClient {
                     game.receiveMessage(data);
                 } catch (IOException e) {
                     game.closeGame();
-                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
                 }
             }
         };

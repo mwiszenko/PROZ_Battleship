@@ -1,7 +1,9 @@
 package com.mwiszenko.battleship.net;
 
 import com.mwiszenko.battleship.core.Game;
+import com.mwiszenko.battleship.utils.DialogHandler;
 
+import javax.swing.*;
 import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,14 +19,16 @@ public class NetworkServer {
     volatile DataOutputStream output;
     boolean connected;
     Game game;
+    JFrame appFrame;
 
-    public NetworkServer(Game game) {
+    public NetworkServer(Game game, JFrame appFrame) {
         socket = null;
         server = null;
         input = null;
         output = null;
         connected = false;
         this.game = game;
+        this.appFrame = appFrame;
     }
 
 
@@ -57,7 +61,7 @@ public class NetworkServer {
                 game.onlineSetup();
             } catch (IOException e) {
                 game.closeGame();
-                game.showConfirmDialog("Unable to establish connection within set timeout",
+                DialogHandler.showConfirmDialog(appFrame, "Unable to establish connection within set timeout",
                         "Connection error");
             }
         };
@@ -75,7 +79,6 @@ public class NetworkServer {
                     game.receiveMessage(data);
                 } catch (IOException e) {
                     game.closeGame();
-                    game.showConfirmDialog("Lost connection to opponent", "Connection error");
                 }
             }
         };

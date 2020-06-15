@@ -13,7 +13,7 @@ public class BoardPanel extends JPanel {
     public BoardPanel(Image bgImage, Board board, boolean isActive) {
         this.bgImage = bgImage;
         this.board = board;
-        this.isActive = isActive;
+        this.isActive = false;
 
         setPreferredSize(new Dimension(bgImage.getWidth(null), bgImage.getHeight(null)));
         setOpaque(false);

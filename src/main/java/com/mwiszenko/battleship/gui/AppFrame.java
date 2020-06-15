@@ -2,15 +2,18 @@ package com.mwiszenko.battleship.gui;
 
 import com.mwiszenko.battleship.core.Board;
 import com.mwiszenko.battleship.core.Game;
+import com.mwiszenko.battleship.utils.DialogHandler;
 import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class AppFrame extends JFrame {
     public AppFrame() {
         setTitle("Battleship");
+        setIconImage(ImageLoader.getImage("icon.png"));
         AppPanel panel = new AppPanel(ImageLoader.getImage("bg.jpg"));
         add(panel);
         pack();
@@ -25,11 +28,12 @@ public class AppFrame extends JFrame {
 
     private JMenuBar initMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        menuBar.add(initMenu());
+        menuBar.add(initMainMenu());
+        menuBar.add(initAboutMenu());
         return menuBar;
     }
 
-    private JMenu initMenu() {
+    private JMenu initMainMenu() {
         JMenu menu = new JMenu("Menu");
 
         JMenuItem startLocalGame = new JMenuItem("Start local game against AI (L)");
@@ -53,6 +57,17 @@ public class AppFrame extends JFrame {
         JMenuItem exit = new JMenuItem("Exit (X)");
         exit.addActionListener(e -> System.exit(0));
         menu.add(exit);
+
+        return menu;
+    }
+
+    private JMenu initAboutMenu() {
+        JMenu menu = new JMenu("Info");
+
+        JMenuItem about = new JMenuItem("Game info (I)");
+        about.addActionListener(e -> DialogHandler.showConfirmDialog(this, "Battleship" + '\n' +
+                "Version 1.0 " + '\n' + "© Michal Wiszenko", "About game"));
+        menu.add(about);
 
         return menu;
     }
