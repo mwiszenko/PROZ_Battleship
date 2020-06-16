@@ -8,12 +8,16 @@ import java.awt.*;
 public class BoardPanel extends JPanel {
     private final Image bgImage;
     private final Board board;
+    // determines if player can make a move on this panel
     private boolean isActive;
+    // determines if panel belongs to player or opponent
+    private final boolean isOpponents;
 
-    public BoardPanel(Image bgImage, Board board, boolean isActive) {
+    public BoardPanel(Image bgImage, Board board, boolean isOpponents) {
         this.bgImage = bgImage;
         this.board = board;
         this.isActive = false;
+        this.isOpponents = isOpponents;
 
         setPreferredSize(new Dimension(bgImage.getWidth(null), bgImage.getHeight(null)));
         setOpaque(false);
@@ -24,7 +28,7 @@ public class BoardPanel extends JPanel {
     protected void paintComponent(Graphics graphics) {
         graphics.drawImage(bgImage, 0, 0, null);
 
-        board.drawImages(graphics, isActive);
+        board.drawImages(graphics, isActive, isOpponents);
     }
 
     public boolean checkIfAllSunk() {
@@ -35,7 +39,7 @@ public class BoardPanel extends JPanel {
         return isActive;
     }
 
-    public void setActivity() {
+    public void changeActivity() {
         isActive = !isActive;
     }
 

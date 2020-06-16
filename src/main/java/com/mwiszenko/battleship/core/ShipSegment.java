@@ -1,9 +1,9 @@
 package com.mwiszenko.battleship.core;
 
 public class ShipSegment {
-    private boolean hitStatus;
     private final int xPos;
     private final int yPos;
+    private boolean hitStatus;
 
     public ShipSegment(int xPos, int yPos) {
         this.hitStatus = false;

@@ -4,6 +4,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// AI implementation
+// shuffles all possible tiles, so the next move is always random, no tactics implemented
 
 public class AI {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Integer>> possibleMoves;

@@ -1,12 +1,10 @@
 package com.mwiszenko.battleship.gui;
 
-import com.mwiszenko.battleship.core.Board;
 import com.mwiszenko.battleship.core.Game;
 import com.mwiszenko.battleship.utils.DialogHandler;
 import com.mwiszenko.battleship.utils.ImageLoader;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -29,14 +27,14 @@ public class AppFrame extends JFrame {
     private JMenuBar initMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(initMainMenu());
-        menuBar.add(initAboutMenu());
+        menuBar.add(initInfoMenu());
         return menuBar;
     }
 
     private JMenu initMainMenu() {
         JMenu menu = new JMenu("Menu");
 
-        JMenuItem startLocalGame = new JMenuItem("Start local game against AI (L)");
+        JMenuItem startLocalGame = new JMenuItem("Local game against AI (L)");
         startLocalGame.addActionListener(e -> startLocalGame());
         menu.add(startLocalGame);
 
@@ -61,18 +59,19 @@ public class AppFrame extends JFrame {
         return menu;
     }
 
-    private JMenu initAboutMenu() {
+    private JMenu initInfoMenu() {
         JMenu menu = new JMenu("Info");
 
         JMenuItem about = new JMenuItem("Game info (I)");
         about.addActionListener(e -> DialogHandler.showConfirmDialog(this, "Battleship" + '\n' +
-                "Version 1.0 " + '\n' + "© Michal Wiszenko", "About game"));
+                "Version 1.0 " + '\n' + "© 2020 Michal Wiszenko", "About game"));
         menu.add(about);
 
         return menu;
     }
 
     private void initKeyListeners() {
+        JFrame frame = this;
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -87,6 +86,9 @@ public class AppFrame extends JFrame {
                     case KeyEvent.VK_H -> hostOnlineGame();
                     case KeyEvent.VK_J -> joinOnlineGame();
                     case KeyEvent.VK_L -> startLocalGame();
+                    case KeyEvent.VK_I -> DialogHandler.showConfirmDialog(frame, "Battleship" + '\n' +
+                            "Version 1.0 " + '\n' + "© 2020 Michal Wiszenko", "About game");
+
                 }
             }
 
@@ -99,23 +101,17 @@ public class AppFrame extends JFrame {
 
     private void startLocalGame() {
         Game game = new Game(this, "local");
-        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(playerBoard, opponentBoard);
+        game.startGame();
     }
 
     private void hostOnlineGame() {
         Game game = new Game(this, "host");
-        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(playerBoard, opponentBoard);
+        game.startGame();
     }
 
     private void joinOnlineGame() {
         Game game = new Game(this, "join");
-        Board playerBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, true);
-        Board opponentBoard = new Board(Board.BOARD_OFFSET, Board.BOARD_OFFSET, false);
-        game.startGame(playerBoard, opponentBoard);
+        game.startGame();
     }
 
 }

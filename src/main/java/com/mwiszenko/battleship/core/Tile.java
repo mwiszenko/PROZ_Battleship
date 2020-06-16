@@ -30,14 +30,15 @@ public class Tile {
         return yPos;
     }
 
-    public boolean isHit() {
-        return isHit;
+    public boolean isNotHit() {
+        return !isHit;
     }
 
     public Image getImage() {
         return image;
     }
 
+    // makes move only if tile hasn't been hit before
     protected void makeMove() {
         this.isHit = true;
         if (segment != null) {
@@ -51,20 +52,12 @@ public class Tile {
     }
 
     public void flagField() {
-        if (!isHit()) {
+        if (isNotHit()) {
             flag = (flag + 1) % 4;
             if (flag == 0) this.image = null;
             if (flag == 1) this.image = ImageLoader.getImage("flag1.png");
             if (flag == 2) this.image = ImageLoader.getImage("flag2.png");
             if (flag == 3) this.image = ImageLoader.getImage("flag3.png");
         }
-    }
-
-    public int getFlag() {
-        return flag;
-    }
-
-    public ShipSegment getSegment() {
-        return segment;
     }
 }

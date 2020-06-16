@@ -8,6 +8,7 @@ public class Ship {
     private final ShipSegment[] segments;
     private final int xPos;
     private final int yPos;
+    // horizontal 'h' or vertical 'v'
     private final char direction;
     private final int length;
     private final int number;
@@ -41,11 +42,7 @@ public class Ship {
                 break;
             }
         }
-        if (sunk) {
-            isSunk = true;
-            if (direction == 'v') image = ImageLoader.getImage(length + "v-sunk.png");
-            else if (direction == 'h') image = ImageLoader.getImage(length + "h-sunk.png");
-        }
+        if (sunk) isSunk = true;
         return isSunk;
     }
 

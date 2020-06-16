@@ -40,7 +40,8 @@ public class NetworkClient {
             game.onlineSetup();
         } catch (IOException e) {
             game.closeGame();
-            DialogHandler.showConfirmDialog(appFrame, "Unable to establish connection", "Connection error");
+            DialogHandler.showConfirmDialog(appFrame, "Unable to establish connection",
+                    "Connection error");
         }
     }
 
